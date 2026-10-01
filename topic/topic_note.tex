@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx,amsmath,amssymb}
+\usepackage[top=19mm,bottom=20mm,left=22mm,right=22mm]{geometry}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\definecolor{navy}{RGB}{28,53,76}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+\newcommand{\E}{\mathbb E}
+\newcommand{\block}[1]{\par\vspace{5pt}{\color{navy}\bfseries #1}\par\vspace{1pt}}
+\begin{document}
+{\small\color{navy}UNIVERSIDAD DEL PAC\'IFICO\hfill AI \& ECONOMIC MODELING}
+\vspace{7pt}
+
+{\Large\bfseries\color{navy}Voluntary Liquidity Buffers\\and Public Dollar Backing}\par
+{\small Topic Presentation note\hfill Carlos G\'omez Puic\'an | October 2026}
+
+\block{Attribution and scope}
+The baseline environment is joint work by \textbf{Carlos G\'omez Puic\'an and Fabi\'an M\'endez Su\'arez} for Investigaci\'on Econ\'omica I, supervised by \textbf{Marco Ortiz}, as written in \texttt{source/PT\_final\_v3.tex}. Fabi\'an authorized its further development. The optimization closure and derivations here are new work by Carlos for this individual course project.
+
+\block{Research question and motivation}
+How does public dollar-liquidity backing affect a bank's voluntary liquidity buffer, conditional on interbank conditions? The joint IE1 question concerns who contributes to and uses liquidity coverage when reserve requirements are uniform within a currency but banks differ in risk and access. This extension makes the self-insurance choice explicit before studying coverage utilization and aggregate feedbacks.
+
+\block{Inherited environment}
+One period has two bank classes $k\in\{L,S\}$ and currencies $c\in\{s,u\}$ (soles, dollars). Banks have deposits $d_k^u=w_kd_k$, $d_k^s=(1-w_k)d_k$, and currency-specific equity $E_k^c$. Credit and reserves satisfy
+\[
+ b_k^c+d_k^c(\rho^c+u_k^c)=d_k^c+E_k^c.
+\]
+The signed liquidity shock is $\omega_k^c=\beta_kA^c+e_k^c$, with uniform idiosyncratic dispersion $a_k^c$. Soles have $A^s=0$; dollars have $A^u=-\eta$ with probability $p$, otherwise zero. Let $\chi=0$ under non-utilizable reserves (NU) and $\chi=1$ under utilizable reserves (U). Own-bank liquidity is
+\[
+ s_k^c=d_k^c(\omega_k^c+u_k^c+\chi\rho^c),\qquad
+ \pi_k^{c-}(u,A)=\Pr(s_k^c<0\mid A^c=A).
+\]
+Interbank coverage is $\Psi_k^{-,c}(A)=\tau_k\min\{1,P^c(A)/Q^c(A)\}$, where $\tau_k=1-e^{-\lambda_k}$ and $P^c,Q^c$ are admitted supply and demand. Residual dollar deficits $\Delta^u(A)$ receive proportional public coverage:
+\[
+ F^u=(1-\chi)\nu_F^u\rho^uD^u+R_D,\qquad
+ \varphi^u(A)=\min\{1,F^u/\Delta^u(A)\}.
+\]
+Here $D^u=\sum_j\mu_jd_j^u$; the elastic soles benchmark has $\varphi^s=1$.
+
+\block{Timing and new optimization closure}
+Fixed deposits, shares, and equity $\to$ buffer choice $\to$ shocks $\to$ interbank allocation $\to$ public coverage and uncovered deficits. Banks are atomistic and take state-contingent matching and coverage as given. Assume $e_k^c\mid A^c\sim U[-a_k^c,a_k^c]$ and no surplus-lending income. For $d_k^c>0$, nonnegative credit gives $0\leq u_k^c\leq\bar u_k^c:=1+E_k^c/d_k^c-\rho^c$. Require $\bar u_k^c\geq0$.
+
+The costs $q_I^c,q_F^c,\ell^c$ apply to interbank-funded, publicly funded, and uncovered deficits, respectively. Define
+\begin{align*}
+ h_k^c(A)&=\Psi_k^{-,c}(A)q_I^c+[1-\Psi_k^{-,c}(A)]
+ \{\varphi^c(A)q_F^c+[1-\varphi^c(A)]\ell^c\},\\
+ L_k^c(u,A)&=\E_e[(-\omega_k^c-u-\chi\rho^c)^+\mid A^c=A].
+\end{align*}
+With net opportunity cost $\kappa_k^c>0$ and nonnegative deficit-cost primitives, the \textbf{new} bank problem is
+\[
+ \boxed{\min_{0\leq u_k^c\leq\bar u_k^c}\;
+ \kappa_k^cu_k^c+\E_{A^c}[h_k^c(A^c)L_k^c(u_k^c,A^c)].}
+\]
+
+\newpage
+{\small\color{navy}VOLUNTARY BUFFERS AND PUBLIC BACKING\hfill CONDITIONAL RESULT}
+
+\block{Derived interior condition}
+For $z=\beta_kA+u+\chi\rho^c$ and $a=a_k^c$, when $-a<z<a$,
+\[
+ L_k^c(u,A)=\frac{(a-z)^2}{4a},\qquad
+ \pi_k^{c-}(u,A)=\frac{a-z}{2a},\qquad
+ \frac{\partial L_k^c}{\partial u}=-\pi_k^{c-}.
+\]
+The derivative identity also holds outside this region. Since the bank holds $h_k^c(A)$ fixed when choosing its buffer, an interior optimum satisfies
+\[
+ \boxed{\kappa_k^c=\E_{A^c}[h_k^c(A^c)\pi_k^{c-}(u_k^{c,*},A^c)].}
+\]
+An extra unit of voluntary liquidity displaces another use of funds. Its expected benefit is the deficit cost avoided in states where the bank needs liquidity. Publicly covered deficits may still carry private cost $q_F^c$.
+
+\block{Conditions for a well-defined optimum}
+Finite primitives and a nonempty compact feasible interval give existence. Nonnegative $h_k^c$ gives convex costs. With $M_k^c(u)=\E_A[h_k^c(A)\pi_k^{c-}(u,A)]$, the inequalities $M_k^c(0)>\kappa_k^c>M_k^c(\bar u_k^c)$ exclude boundaries. A unique marginal crossing ensures uniqueness; uniform shocks alone do not. At a regular optimum, require positive curvature
+\[
+ \mathcal D_k^u=
+ \E_A[h_k^u(A)f_k^u(-\beta_kA-u_k^{u,*}-\chi\rho^u\mid A)]>0,
+\]
+where $f_k^u$ is the conditional idiosyncratic-shock density.
+
+\block{Candidate proposition: backing and self-insurance}
+\textbf{Hold aggregate interbank supply, demand, and residual dollar deficits fixed across values of $R_D$.} Also hold policy, deposits, shocks, costs, and feasible bounds fixed. If $\ell^u>q_F^u$, stronger backing weakly lowers the regular interior optimal dollar buffer. In a rationed state, $\varphi^u_{R_D}(A)=1/\Delta^u(A)$; in a strictly fully covered state it is zero. Implicit differentiation yields
+\[
+ \boxed{\frac{du_k^{u,*}}{dR_D}=
+ -\frac{(\ell^u-q_F^u)\E_A[\pi_k^{u-}(u_k^{u,*},A)
+ (1-\Psi_k^{-,u}(A))\varphi^u_{R_D}(A)]}{\mathcal D_k^u}.}
+\]
+\textbf{Strict decrease} requires $0<u_k^{u,*}<\bar u_k^u$, $\mathcal D_k^u>0$, $\ell^u>q_F^u$, no support or coverage kink, and at least one positive-probability state with
+\[
+ \pi_k^{u-}(u_k^{u,*},A)>0,\qquad
+ \Psi_k^{-,u}(A)<1,\qquad 0<F^u<\Delta^u(A).
+\]
+Additional backing then makes uncovered residual liquidity needs less costly, reducing the incentive to self-insure. At coverage kinks use one-sided derivatives; at buffer boundaries the interior formula does not apply. This is a \textbf{conditional individual best-response result}, not an equilibrium sign theorem.
+
+\block{U versus NU and accounting}
+In U, required reserves directly absorb the bank's shock and $F^u=R_D$. In NU, they enter the collective corpus and $F^u=\nu_F^u\rho^uD^u+R_D$. The FOC has the same form; probabilities and rationing differ. There is no unconditional buffer ranking across regimes or bank classes.
+
+The term $\kappa_k^c$ already includes the net voluntary-reserve opportunity cost. The three deficit-cost weights sum to one, so each unit is charged once. Required reserve principal enters own-bank liquidity or the fund, never both. Coverage measures utilization; it is not called a subsidy.
+
+\block{What remains for the final project}
+Specify and calibrate private costs; solve the aggregate buffer fixed point; evaluate market and coverage feedbacks; and study utilization across classes and currencies. Net transfers require explicit ownership, repayment, remuneration, and loss rules. Neither smaller size nor higher volatility is assumed to imply a larger optimal buffer.
+
+{\footnotesize Technical derivations: \texttt{model/model\_notes.tex}. Symbolic algebra checks: \texttt{model/verify\_foc.py}. Set $\Psi^-=0$ when $Q=0$ and $\varphi^u=1$ when $\Delta^u=0$.}
+\end{document}
