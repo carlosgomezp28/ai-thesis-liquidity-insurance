@@ -1,0 +1,430 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{mathptmx}
+\usepackage[left=3.5cm,right=2.54cm,top=2.54cm,bottom=2.54cm,footskip=1cm]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+
+\onehalfspacing
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{6pt}
+
+\titleformat{\section}{\normalfont\bfseries\uppercase}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\bfseries}{\thesubsection.}{0.5em}{}
+\titlespacing{\section}{0pt}{14pt}{10pt}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+
+\newenvironment{refs}
+{\begin{list}{}{\setlength{\leftmargin}{2em}\setlength{\itemindent}{-2em}\setlength{\itemsep}{6pt}\setlength{\parsep}{0pt}}\RaggedRight}
+{\end{list}}
+
+\newcommand{\figcap}[1]{\begin{quote}\footnotesize #1\end{quote}}
+
+\newcommand{\TocIntro}{\pageref{sec:intro}}
+\newcommand{\TocCapI}{\pageref{sec:lit}}
+\newcommand{\TocCapII}{\pageref{sec:marco}}
+\newcommand{\TocRefs}{\pageref{sec:refs}}
+\newcommand{\TocAnexos}{\pageref{sec:anexos}}
+\newcommand{\TocAnI}{\pageref{sec:anexo-ia}}
+\newcommand{\TocAnII}{\pageref{sec:anexo-met}}
+\newcommand{\TocAnIII}{\pageref{sec:anexo-hechos}}
+\newcommand{\TocAnIV}{\pageref{sec:anexo-cond}}
+\newcommand{\TocBal}{\pageref{tab:balance}}
+\newcommand{\TocTabDos}{\pageref{tab:evidencia}}
+\newcommand{\TocFigUno}{\pageref{fig:uno}}
+\newcommand{\TocFigA}{\pageref{fig:auno}}
+\begin{document}
+\pagestyle{empty}
+
+%============ PORTADA ============
+\begin{center}
+\vspace*{0.2cm}
+\includegraphics[height=3.1cm,width=\textwidth,keepaspectratio]{fig2.png}\\[0.9cm]
+{\bfseries\large HETEROGENEIDAD BANCARIA, SEGURO INTERBANCARIO Y REQUERIMIENTOS DE ENCAJE EN EL PERÚ}\\[1.7cm]
+{\bfseries Plan de Trabajo de Investigación Económica}\\[2cm]
+{\bfseries Presentado por}\\[10pt]
+{\bfseries Carlos Gómez Puican}\\[4pt]
+{\bfseries Fabián Méndez Suárez}\\[2cm]
+{\bfseries Asesor: Marco Antonio Ortiz Sosa}\\[2cm]
+{\bfseries Lima, septiembre de 2026}
+\end{center}
+\clearpage
+
+%============ RESUMEN / ABSTRACT ============
+\pagestyle{plain}
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+\begin{center}\textbf{RESUMEN}\end{center}
+\noindent El presente plan de trabajo propone estudiar cómo un encaje uniforme, concebido como un seguro de liquidez, distribuye sus costos y beneficios entre bancos que difieren en riesgo de fondeo y acceso al mercado interbancario, y cómo cambia ese seguro cuando el respaldo de liquidez difiere entre soles y dólares. La motivación reúne evidencia descriptiva sobre los encajes por moneda, el tamaño y la volatilidad de los depósitos, elaborada a partir de las series del BCRP y de la SBS. Siguiendo la lectura aseguradora del encaje propuesta por Ortiz (2026), el marco es de horizonte estático y modela el mercado interbancario como un mecanismo de negociación descentralizada, siguiendo a Bianchi y Bigio (2022). Se distinguen dos regímenes: uno en que las reservas requeridas no son utilizables por el banco y respaldan un fondo colectivo, y otro en que sí lo son y no duplican su principal en dicho fondo. Las hipótesis vinculan un menor respaldo con un mayor valor marginal del seguro, y un mayor riesgo o un menor acceso con una utilización relativa distinta, admitiendo respuestas compensatorias del autoseguro. La estrategia combina descripción, solución numérica y contrafactuales de respaldo y heterogeneidad, sin prometer identificación causal histórica. La contribución propuesta es distributiva: identificar quién utiliza el seguro y bajo qué condiciones; la especificación contractual necesaria para medir transferencias netas queda planteada como paso siguiente.
+
+\smallskip
+\noindent\textbf{Palabras clave:} encaje; seguro de liquidez; dolarización; heterogeneidad bancaria.
+
+\vspace{0.5cm}
+\begin{center}\textbf{ABSTRACT}\end{center}
+\noindent This research plan studies how a uniform reserve requirement, understood as liquidity insurance, distributes its costs and benefits across banks that differ in funding risk and access to the interbank market, and how that insurance changes when the liquidity backstop differs between soles and dollars. The motivation draws on descriptive evidence on reserve requirements by currency, bank size, and deposit volatility, compiled from BCRP and SBS series. Following the insurance reading of reserve requirements proposed by Ortiz (2026), the framework is static and models the interbank market as a decentralized bargaining mechanism, following Bianchi and Bigio (2022). We distinguish two regimes: one in which required reserves are not usable by the bank and back a collective fund, and another in which they are usable and do not duplicate their principal in that fund. The hypotheses link a weaker backstop to a higher marginal value of the insurance, and higher risk or poorer access to a different relative utilization, while allowing for compensating responses from self-insurance. The strategy combines description, numerical solution, and counterfactuals on backstops and heterogeneity, without claiming historical causal identification. The proposed contribution is distributive: to identify who uses the insurance and under what conditions; the contractual specification needed to measure net transfers is left as a next step.
+
+\smallskip
+\noindent\textbf{Keywords:} reserve requirements; liquidity insurance; dollarization; bank heterogeneity.
+\clearpage
+
+%============ TABLA DE CONTENIDO ============
+\begin{center}\textbf{TABLA DE CONTENIDO}\end{center}
+\vspace{0.2cm}
+\noindent
+\begin{tabbing}
+\hspace{11.5cm}\= \kill
+RESUMEN / ABSTRACT \> ii\\[3pt]
+ÍNDICE DE TABLAS \> iv\\[3pt]
+ÍNDICE DE GRÁFICOS \> v\\[3pt]
+ÍNDICE DE ANEXOS \> vi\\[5pt]
+INTRODUCCIÓN \> \TocIntro\\[3pt]
+CAPÍTULO I. REVISIÓN DE LA LITERATURA \> 3\\[2pt]
+\quad 1. Liquidez bancaria y seguro de depósitos \> 3\\[2pt]
+\quad 2. Mercado interbancario y acceso \> 3\\[2pt]
+\quad 3. Encaje, dolarización y respaldo público \> 4\\[2pt]
+\quad 4. Heterogeneidad, incidencia y tarificación \> 4\\[2pt]
+\quad 5. Balance de la literatura \> 5\\[3pt]
+CAPÍTULO II. MARCO ANALÍTICO Y METODOLOGÍA \> \TocCapII\\[3pt]
+REFERENCIAS BIBLIOGRÁFICAS \> \TocRefs\\[5pt]
+ANEXOS \> \TocAnexos\\[2pt]
+\quad Anexo I. Declaración de Uso de Inteligencia Artificial \> \TocAnI\\[2pt]
+\quad Anexo II. Esbozo preliminar de metodología \> \TocAnII\\[2pt]
+\quad Anexo III. Hechos estilizados \> \TocAnIII\\[2pt]
+\quad Anexo IV. Condiciones analíticas y decisiones abiertas \> \TocAnIV
+\end{tabbing}
+\clearpage
+
+%============ ÍNDICES ============
+\begin{center}\textbf{ÍNDICE DE TABLAS}\end{center}
+\noindent Tabla 1. Balance de la literatura \dotfill \TocBal\\[3pt]
+Tabla 2. Evidencia seleccionada \dotfill \TocTabDos
+\clearpage
+
+\begin{center}\textbf{ÍNDICE DE GRÁFICOS}\end{center}
+\noindent Figura 1. Encaje diferenciado y heterogeneidad bancaria \dotfill \TocFigUno\\[3pt]
+Figura A1. Dolarización de depósitos por banco y era \dotfill \TocFigA
+\clearpage
+
+\begin{center}\textbf{ÍNDICE DE ANEXOS}\end{center}
+\noindent Anexo I. Declaración de Uso de Inteligencia Artificial \dotfill \TocAnI\\[3pt]
+Anexo II. Esbozo preliminar de metodología \dotfill \TocAnII\\[3pt]
+Anexo III. Hechos estilizados \dotfill \TocAnIII\\[3pt]
+Anexo IV. Condiciones analíticas y decisiones abiertas \dotfill \TocAnIV
+\clearpage
+
+%============ CUERPO ============
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\titleformat{\section}{\centering\normalfont\bfseries\uppercase}{}{0pt}{}
+\section{Introducción}\label{sec:intro}
+\titleformat{\section}{\normalfont\bfseries\uppercase}{}{0pt}{}
+
+En julio de 2026, el encaje exigible medio sobre las obligaciones en dólares del sistema bancario peruano fue de 35.37\,\% de las obligaciones sujetas a encaje, frente a 5.56\,\% en soles: más de seis veces. La lectura habitual de esa brecha es macroprudencial y de desdolarización: encarecer el fondeo en la moneda que el banco central no emite (Montoro y Moreno, 2011; Armas et al., 2014; Ize y Levy Yeyati, 2005). Este plan adopta una lectura complementaria. Siguiendo a Ortiz (2026), el encaje es la prima de un seguro de liquidez y las reservas requeridas son su fondo. Bajo esa lente, la pregunta deja de ser por qué desdolarizar y pasa a ser la que se haría cualquier asegurador: \textquestiondown{}por qué la prima de un mismo siniestro ---quedarse corto de liquidez--- debería diferir según la moneda? La respuesta que exploramos es institucional y opera como un supuesto por investigar: en soles el banco central podría respaldar los faltantes porque emite la moneda, mientras que en dólares su capacidad de respaldo sería más limitada.
+
+Ese seguro, sin embargo, se cobra a una tasa uniforme entre bancos, y los bancos no son iguales. La Figura 1 y el Anexo~III documentan tres márgenes de heterogeneidad. Primero, el tamaño y la volatilidad del crecimiento de los depósitos se asocian negativamente (correlación de $-0.468$ en veinte eras bancarias del panel SBS): en esta muestra, los bancos más pequeños presentan una mayor volatilidad del crecimiento de sus depósitos. Segundo, la composición monetaria difiere marcadamente entre bancos. Tercero, la volatilidad residual se asocia positivamente con la liquidez contable (0.508), patrón compatible con un mayor autoseguro de los bancos más expuestos. Son asociaciones descriptivas, con sus muestras y límites precisados en el Anexo~III. En conjunto, sugieren que una tasa uniforme dentro de cada moneda no representa el mismo seguro para todos: el riesgo de fondeo y el acceso al mercado modifican cuánto aporta cada banco, cuánto se autoasegura y cuánto utiliza la cobertura colectiva.
+
+\begin{center}\IfFileExists{fig1.pdf}{\includegraphics[width=0.95\linewidth]{fig1.pdf}}{\fbox{\parbox[c][4cm][c]{0.85\linewidth}{\centering\itshape Figura 1 — subir \texttt{fig1.pdf} a Overleaf}}}\end{center}
+\figcap{\textbf{Figura 1. Encaje diferenciado y heterogeneidad bancaria.}\label{fig:uno} Fuente: BCRPData y SBS. Panel A: ratios agregados de encaje sobre el total de obligaciones sujetas a encaje, MN y ME, enero de 2010 a julio de 2026. Panel B: tamaño (media del logaritmo de activos) y volatilidad del crecimiento de depósitos, veinte eras bancarias, julio de 2013 a julio de 2026. Evidencia descriptiva; no identifica causalidad, tasas marginales ni acceso al mercado.}
+
+La lectura aseguradora organiza tres capas de protección: el autoseguro, mediante buffers voluntarios; el coaseguro, mediante el intercambio de excedentes en el mercado interbancario, modelado como una negociación descentralizada a la Bianchi y Bigio (2022); y el reaseguro, mediante el respaldo público. La hipótesis institucional del marco es que la elasticidad de ese respaldo es menor en dólares que en soles, lo que no implica ausencia de reservas internacionales ni se deduce de las correlaciones anteriores.
+
+La pregunta que organiza el trabajo es quién paga y quién utiliza el seguro cuando el encaje es uniforme y los bancos son heterogéneos en riesgo de fondeo y acceso interbancario, y cómo se desplaza esa incidencia cuando el respaldo de liquidez difiere entre soles y dólares. El objetivo es caracterizar esa incidencia en un modelo estático y evaluar su sensibilidad al respaldo por moneda.
+
+\noindent\textbf{H1.} Una menor capacidad efectiva de respaldo eleva el valor marginal del corpus de encaje como seguro; por ello, el componente asegurador puede ser mayor en la moneda con respaldo menos elástico.
+
+\noindent\textbf{H2.} Los bancos con mayor riesgo de fondeo y peor acceso al interbancario presentan una utilización esperada de la cobertura distinta por unidad de depósito, de modo que la incidencia de un encaje uniforme no es neutral entre tipos de banco; bajo una especificación contractual que permita definir transferencias netas, esa asimetría puede generar subsidios cruzados. Ambas hipótesis son refutables: la respuesta del autoseguro puede atenuar H2.
+
+La contribución propuesta es separar dos preguntas que suelen confundirse: el nivel agregado del seguro, gobernado por la asimetría de respaldo entre monedas, y su incidencia, gobernada por la heterogeneidad entre bancos. Una prima uniforme sobre asegurados heterogéneos podría constituir, en general, un subsidio cruzado, y caracterizarlo ---identificar quién utiliza el seguro y bajo qué condiciones--- es el aporte propuesto, sin atribuir a la heterogeneidad el nivel del encaje ni pretender explicar todo el encaje observado. La especificación contractual que vuelve medibles esas transferencias ---las reglas sobre principal, remuneración y pérdidas--- es, en sí misma, parte de lo que el trabajo debe precisar. El Capítulo~I delimita la literatura; el Capítulo~II presenta el marco analítico; la metodología preliminar figura en el Anexo~II, y las decisiones pendientes, en el Anexo~IV.
+
+\clearpage
+\section{Capítulo I. Revisión de la Literatura}\label{sec:lit}
+
+Este capítulo ordena cuatro conversaciones ---la teoría de la liquidez bancaria, el mercado interbancario, el encaje bajo dolarización y la tarificación de seguros sobre asegurados heterogéneos--- y precisa, en cada una, qué elemento se retiene para el marco y qué queda pendiente. El balance final identifica el vacío que el trabajo busca abordar.
+
+\subsection{Liquidez bancaria y seguro de depósitos}
+La distinción entre iliquidez y insolvencia estructura la literatura. Diamond y Dybvig (1983) muestran que la transformación de plazos vuelve frágil al banco frente a necesidades de pago no sincronizadas y que un seguro puede sostener el equilibrio eficiente; de ese aporte se retiene la idea del encaje como protección de pagos, no las corridas de expectativas ni la insolvencia patrimonial, que este marco deja fuera. Bhattacharya y Gale (1987) trasladan ese problema al plano del sistema: cuando la liquidez es un bien que los bancos pueden compartir, aparecen incentivos a aprovechar la de los demás, y un mecanismo colectivo puede mejorar sobre el autoseguro individual. Allen y Gale (2000) precisan el reverso: las conexiones que comparten riesgo también propagan perturbaciones, de modo que la diversificación individual y la exposición conjunta deben tratarse por separado. La lectura conjunta sugiere que el nivel de protección y su reparto entre instituciones son cuestiones distintas, una separación que este trabajo hace explícita.
+
+\subsection{Mercado interbancario y acceso}
+El coaseguro se realiza en un mercado que no es una bolsa centralizada de acceso uniforme. Afonso y Lagos (2015) formalizan la búsqueda y la negociación bilateral en el mercado de fondos federales, y Afonso et al. (2014) documentan que las relaciones estables condicionan el acceso al crédito interbancario, sobre todo en episodios de tensión. Bianchi y Bigio (2022) integran esas fricciones con la gestión de liquidez y la política monetaria: el banco enfrenta un costo por mantener recursos líquidos y un costo contingente por conseguirlos tras el shock, y ese compromiso determina su autoseguro. De este bloque el marco toma dos piezas: la fricción de emparejamiento, que impide que todo excedente atienda un déficit, y un parámetro de acceso que resume la desigualdad de contacto entre bancos. Dos límites importan para la pregunta: un mismo riesgo individual no garantiza igual cobertura, y un shock agregado puede reducir a la vez la oferta de varios bancos, de modo que conviene seguir las cantidades efectivamente intermediadas y no una probabilidad abstracta de encuentro.
+
+\subsection{Encaje, dolarización y respaldo público}
+La literatura no reduce el encaje a un único objetivo. Montoro y Moreno (2011) documentan su uso como instrumento de política contracíclica en América Latina; Armas et al. (2014) analizan su función en el esquema de metas de inflación peruano, donde opera junto a la tasa de referencia; Brei y Moreno (2018) lo vinculan con la gestión de los flujos de capital. En el plano teórico, Glocker y Towbin (2012) ligan su efectividad a la presencia de fricciones financieras y muestran que la denominación de la deuda altera la transmisión, y Cantú et al. (2024) lo evalúan como herramienta de estabilidad financiera. De este conjunto se retiene la evaluación de costos y beneficios de inmovilizar recursos líquidos; estos trabajos reconocen funciones de crédito y de tasas ajenas al seguro estudiado aquí y, por lo mismo, no interpretan la brecha entre monedas como una prima actuarial.
+
+La lectura que este trabajo adopta y extiende es la de Ortiz (2026), que formula el encaje en dólares como la prima de un seguro de liquidez cuyo fondo son las reservas requeridas, y caracteriza las condiciones bajo las cuales ese seguro se autofinancia. De ahí provienen la contabilidad del seguro ---la distinción entre el corpus del fondo y la prima económica--- y la asimetría de respaldo entre monedas; este plan las traslada a un modelo con bancos heterogéneos para estudiar la incidencia, la dimensión que un planteamiento de banco representativo no aborda. La dolarización añade una restricción propia: Ize y Levy Yeyati (2005) discuten los fundamentos de la desdolarización y por qué la composición de monedas responde a la volatilidad relativa de precios y tipo de cambio, y Bianchi et al. (2021) estudian la demanda de liquidez en dólares y su transmisión al tipo de cambio. Estos trabajos motivan distinguir monedas; aquí la composición monetaria se mantiene fija para aislar el seguro. Jeanne y Rancière (2011) analizan las reservas internacionales como seguro ante interrupciones del financiamiento externo, analogía que orienta el balance entre recursos inmovilizados y protección contingente, con la salvedad de que las reservas soberanas no equivalen al encaje bancario ni están automáticamente disponibles para cada intermediario.
+
+\subsection{Heterogeneidad, incidencia y tarificación}
+El paso de la protección agregada a la incidencia requiere preguntar quién llega al mercado, quién conserva liquidez y quién utiliza el respaldo. Acharya et al. (2017) muestran cómo medir la contribución individual de cada institución al déficit esperado del sistema; esa lógica ---que una prima ajustada al riesgo debería depender de cuánto aporta cada asegurado al riesgo colectivo, y no de un promedio uniforme--- es el fundamento de la pregunta distributiva de este trabajo. En el caso peruano, Cuba et al. (2020) estudian las interconexiones bancarias y el riesgo de liquidez sistémico, y Carrera et al. (2014) analizan la regulación prudencial y los derrames en economías abiertas; ambos sitúan la heterogeneidad de las conexiones en el sistema local, aunque no identifican por sí solos la intensidad de contacto de las clases del marco. La heterogeneidad, además, puede operar en sentidos opuestos: un banco más expuesto necesita más liquidez, pero también puede mantener un buffer mayor antes del shock; un menor acceso reduce el coaseguro, pero puede inducir una cartera más conservadora. Por eso la predicción de mayor utilización no es un corolario automático del tamaño, y la igualdad de tasas de encaje no basta para concluir que hay subsidio: hacen falta reglas sobre principal, remuneración y pérdidas.
+
+\subsection{Balance de la literatura}
+La Tabla~1\label{tab:balance} sintetiza qué aporta cada línea y qué deja pendiente.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{center}\footnotesize\textbf{Tabla 1. Balance de la literatura}\end{center}
+\noindent\begin{tabular}{@{}p{3.0cm}p{5.4cm}p{5.4cm}@{}}
+\toprule
+\textbf{Línea de literatura} & \textbf{Aporte al trabajo} & \textbf{Vacío que deja}\\
+\midrule
+Liquidez bancaria y seguro (Diamond y Dybvig; Bhattacharya y Gale; Allen y Gale) & El encaje como protección de pagos y la distinción entre compartir y propagar riesgo & No separa el nivel de protección de su reparto entre bancos distintos\\
+Mercado interbancario (Bianchi y Bigio; Afonso y Lagos; Afonso et al.) & Fricción de emparejamiento y acceso desigual al coaseguro & Modela un banco representativo o el agregado, no la distribución\\
+Encaje y dolarización (Ortiz; Montoro y Moreno; Armas et al.; Glocker y Towbin; Ize y Levy Yeyati) & Lectura aseguradora y asimetría de respaldo entre monedas & Fija el nivel en un banco representativo; no estudia la incidencia\\
+Heterogeneidad y tarificación (Acharya et al.; Cuba et al.; Carrera et al.) & La prima justa depende de la contribución individual al riesgo & No aplica esa lógica a un encaje uniforme diferenciado por moneda\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\noindent Hasta donde alcanza esta revisión, ninguna de estas líneas tarifica el instrumento sobre bancos heterogéneos ni separa el nivel agregado del seguro de su incidencia entre clases. Ese es el vacío que el trabajo aborda: articular esos márgenes en un marco estático acotado, con contrafactuales de respaldo y composición, sobre la variación monetaria y bancaria que ofrece el caso peruano. La contribución es distributiva y explícita en sus supuestos, no una identificación causal del encaje histórico.
+
+\clearpage
+\section{Capítulo II. Marco Analítico y Metodología}\label{sec:marco}
+
+El marco es una construcción propia a partir de la literatura del Capítulo~I, en particular de la lectura aseguradora de Ortiz (2026) y del mercado interbancario de Bianchi y Bigio (2022). Es de horizonte estático y busca separar el nivel agregado del seguro de su incidencia entre bancos. Se presenta aquí el modelo; la estrategia metodológica preliminar figura en el Anexo~II, y las condiciones analíticas y decisiones abiertas, en el Anexo~IV.
+
+\subsection{Entorno, bancos y balance}
+
+La economía dura un período con etapas y no encadena períodos. Hay dos clases de banco $k\in\{L,S\}$, con masas $\mu_k$, que difieren en la dispersión de sus retiros $a_k$ y en su acceso al interbancario $\lambda_k$, y dos monedas $c\in\{s,u\}$ (soles y dólares). Las dos clases resumen en dos tipos representativos ---uno grande y de menor riesgo, otro pequeño y más volátil--- la heterogeneidad continua que documentan los hechos estilizados. Un banco capta depósitos $d_k$, de los cuales una fracción $w_k$ está denominada en dólares, y su patrimonio total satisface $E_k=\varepsilon d_k$. Cuando se requiera una descomposición contable por moneda, $E_k^c$ denotará la parte del patrimonio imputada a cada cartera, con $\sum_c E_k^c=E_k$:
+\begin{equation}
+d^u_k=w_kd_k,\qquad d^s_k=(1-w_k)d_k.
+\end{equation}
+
+En cada moneda reparte su activo entre crédito $b^c_k$ y reservas, expresadas como proporción de depósitos, $m^c_k$, sujeto al encaje:
+\begin{equation}
+b^c_k+d^c_km^c_k=d^c_k+E^c_k,\qquad
+m^c_k=\rho^c+u^c_k,\quad u^c_k\geq 0,
+\end{equation}
+donde $\rho^c$ es el encaje exigible y $u^c_k$ el buffer voluntario, ambos como proporción de depósitos. La composición $w_k$ se mantiene fija por clase en el análisis base.
+
+\subsection{Choque de liquidez y dos especificaciones del piso}
+
+Tras elegir la cartera, cada banco enfrenta un choque de liquidez
+\begin{equation}
+\omega^c_k=\beta_k A^c+e^c_k,\qquad
+e^c_k\sim U[-a_k^c,a_k^c],
+\end{equation}
+con $A^s=0$ y, en dólares, $A^u=-\eta$ con probabilidad $p$ y $A^u=0$ con probabilidad $1-p$ (una parada súbita). La posición de liquidez depende de si las reservas requeridas pueden utilizarse para atender el retiro. Bajo \emph{encaje no utilizable} (NU), solo el buffer voluntario absorbe el choque y las reservas requeridas respaldan un fondo colectivo; bajo \emph{encaje utilizable} (U, cumplimiento en promedio), todo el saldo de reservas absorbe el choque y su principal no vuelve a contabilizarse en un fondo colectivo:
+\begin{equation}
+s^c_k=d^c_k(\omega^c_k+u^c_k)\quad\text{(NU)},\qquad
+s^c_k=d^c_k(\omega^c_k+m^c_k)\quad\text{(U)}.
+\end{equation}
+
+Si $s^c_k>0$, el banco presenta un superávit de liquidez; si $s^c_k<0$, presenta un déficit. El déficit esperado $S^{c-}_k(A)$, el superávit esperado $S^{c+}_k(A)$ y la probabilidad de déficit $\pi^{c-}_k(A)$ son:
+\begin{equation}
+S_k^{c-}(A)
+\equiv
+\mathbb{E}_e\!\left[(-s_k^c)^+\mid A^c=A\right],
+\qquad
+S_k^{c+}(A)
+\equiv
+\mathbb{E}_e\!\left[(s_k^c)^+\mid A^c=A\right],
+\end{equation}
+\begin{equation}
+\pi_k^{c-}(A)
+=
+\Pr(s_k^c<0\mid A^c=A),
+\qquad
+(x)^+\equiv\max\{x,0\}.
+\end{equation}
+
+Estas expresiones tienen forma cerrada bajo el supuesto de soporte uniforme.
+
+\subsection{Mercado interbancario}
+
+Cada banco contacta el mercado con probabilidad $\tau_k=1-e^{-\lambda_k}$. Con oferta y demanda admitidas
+\begin{equation}
+P^c(A)=\sum_k\mu_k\tau_k S^{c+}_k(A),
+\qquad
+Q^c(A)=\sum_k\mu_k\tau_k S^{c-}_k(A),
+\end{equation}
+el emparejamiento es proporcional y la tasa negociada surge de un reparto a la Bianchi y Bigio (2022):
+\begin{equation}
+\Psi^{-,c}_k(A)
+=
+\tau_k\min\!\left(1,\frac{P^c(A)}{Q^c(A)}\right),
+\qquad
+i^c_{IB}=i^c_R+\alpha\left(i^c_W-i^c_R\right).
+\end{equation}
+
+\subsection{Fondo, respaldo asimétrico e incidencia}
+
+El déficit agregado que permanece después del mercado interbancario es
+\begin{equation}
+\Delta^c(A)
+=
+\sum_k\mu_k
+\left(1-\Psi^{-,c}_k(A)\right)
+S^{c-}_k(A).
+\end{equation}
+
+En soles se considera como benchmark una ventanilla elástica. En dólares, la capacidad de cobertura es finita:
+\begin{equation}
+F^u
+=
+\mathbf{1}_{\{NU\}}\,
+\nu_F^u\rho^uD^u
++
+R_D,
+\qquad
+\phi(A)
+=
+\min\!\left(1,\frac{F^u}{\Delta^u(A)}\right),
+\end{equation}
+donde $\nu_F^u\in[0,1]$ es la fracción movilizable del corpus, $D^u=\sum_k\mu_kd_k^u$, $R_D\geq0$ es la capacidad adicional de respaldo en dólares y $\phi(A)$ es la fracción del déficit residual cubierta. Bajo el benchmark NU puede fijarse $\nu_F^u=1$; bajo U, el principal del encaje ya utilizado por el banco no se contabiliza nuevamente en el fondo.
+
+La cobertura esperada recibida por la clase $k$ es
+\begin{equation}
+C_k^u
+=
+\mathbb{E}\!\left[
+\phi(A)
+\left(1-\Psi^{-,u}_k(A)\right)
+S^{u-}_k(A)
+\right],
+\end{equation}
+y su utilización relativa puede medirse mediante $C_k^u/d_k^u$. Esta medida permite estudiar la incidencia entre clases sin imponer todavía una definición de transferencia neta. Esta última requiere especificar las reglas de propiedad del corpus, remuneración, repago y absorción de pérdidas. El bienestar agrega el crédito y las reservas remuneradas, netos del costo real del financiamiento externo, de las pérdidas asociadas a déficits no cubiertos y del costo de mantener respaldo.
+
+\subsection{Hipótesis formalizadas: proposiciones por demostrar}
+El marco genera las siguientes conjeturas, cuya demostración forma parte del trabajo de IE2; el Anexo~IV enuncia las condiciones analíticas preliminares.
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+\item[P1.] \emph{Respaldo y valor marginal}\emph{.} Manteniendo constantes las demás primitivas, una menor capacidad efectiva de respaldo aumenta el valor marginal del corpus de encaje en los estados donde persiste el déficit residual. Si el respaldo cubre los estados relevantes aún con $\rho^c=0$, el motivo asegurador del encaje desaparece.
+\item[P2.] \emph{Invarianza condicionada.} Manteniendo constante el corpus agregado y bajo cobertura proporcional, tasa de préstamo común y ausencia de restricciones diferenciales vinculantes, redistribuir el aporte entre clases puede dejar inalterados los resultados agregados y modificar únicamente su incidencia.
+\item[P3.] \emph{Utilización relativa.} Ceteris paribus, mayor riesgo de fondeo eleva el déficit potencial y menor acceso interbancario aumenta la fracción no cubierta privadamente; ambos mecanismos tienden a elevar la utilización del respaldo por unidad de depósitos. La respuesta endógena del buffer puede atenuar o incluso revertir este ordenamiento.
+\item[P4.] \emph{Umbrales.} Bajo encaje utilizable y manteniendo constantes las demás primitivas, un aumento de $\rho^c$ sustituye primero al buffer voluntario de la clase con menor $u_k^{c,*}$. Una vez que el piso supera el buffer deseado y se aproxima al soporte del shock, puede reducir mecánicamente la probabilidad de déficit y eventualmente sobreasegurar esa clase.
+\item[P5.] \emph{Prestamista marginal (conjetura).} Ante un shock agregado muy severo, la clase de menor dispersión puede perder toda su masa de oferentes antes que la clase más dispersa; en ese rango, esta última puede convertirse en oferente marginal del interbancario.
+\end{itemize}
+La selección de la metodología para verificar estas conjeturas se justifica en el Anexo~II.
+
+\clearpage
+\section{Referencias bibliográficas}\label{sec:refs}
+\begin{refs}
+\item Acharya, V. V., Pedersen, L. H., Philippon, T., \& Richardson, M. (2017). Measuring systemic risk. \textit{The Review of Financial Studies, 30}(1), 2--47. \url{https://doi.org/10.1093/rfs/hhw088}
+\item Afonso, G., Kovner, A., \& Schoar, A. (2014). \textit{Trading partners in the interbank lending market} (Staff Report N.\textsuperscript{o}~620). Federal Reserve Bank of New York.
+\item Afonso, G., \& Lagos, R. (2015). Trade dynamics in the market for federal funds. \textit{Econometrica, 83}(1), 263--313. \url{https://doi.org/10.3982/ECTA10586}
+\item Allen, F., \& Gale, D. (2000). Financial contagion. \textit{Journal of Political Economy, 108}(1), 1--33. \url{https://doi.org/10.1086/262109}
+\item Armas, A., Castillo, P., \& Vega, M. (2014). \textit{Inflation targeting and quantitative tightening: Effects of reserve requirements in Peru} (Documento de Trabajo N.\textsuperscript{o}~2014-003). Banco Central de Reserva del Perú.
+\item Banco Central de Reserva del Perú. (s.\,f.). \textit{BCRPData: series mensuales de encaje} [Base de datos]. \url{https://estadisticas.bcrp.gob.pe/estadisticas/series/}
+\item Bhattacharya, S., \& Gale, D. (1987). Preference shocks, liquidity, and central bank policy. En W. Barnett \& K. Singleton (Eds.), \textit{New approaches to monetary economics} (pp. 69--88). Cambridge University Press.
+\item Bianchi, J., \& Bigio, S. (2022). Banks, liquidity management, and monetary policy. \textit{Econometrica, 90}(1), 391--454. \url{https://doi.org/10.3982/ECTA16599}
+\item Bianchi, J., Bigio, S., \& Engel, C. (2021). \textit{Scrambling for dollars: International liquidity, banks and exchange rates} (NBER Working Paper N.\textsuperscript{o}~29457). National Bureau of Economic Research. \url{https://doi.org/10.3386/w29457}
+\item Brei, M., \& Moreno, R. (2018). \textit{Reserve requirements and capital flows in Latin America} (BIS Working Paper N.\textsuperscript{o}~741). Bank for International Settlements.
+\item Cantú, C., Gondo, R., \& Martinez, B. (2024). \textit{Reserve requirements as a financial stability instrument} (BIS Working Paper N.\textsuperscript{o}~1182). Bank for International Settlements.
+\item Carrera, C., Castillo, P., Ortiz, M., \& Vega, H. (2014). \textit{Spillovers, capital flows and prudential regulation in small open economies} (Documento de Trabajo N.\textsuperscript{o}~2014-006). Banco Central de Reserva del Perú.
+\item Cuba, W., Oré, E., \& Toma, H. (2020). \textit{Interconexiones bancarias y riesgo de liquidez sistémico en el Perú} (Documento de Trabajo N.\textsuperscript{o}~2020-005). Banco Central de Reserva del Perú.
+\item Diamond, D. W., \& Dybvig, P. H. (1983). Bank runs, deposit insurance, and liquidity. \textit{Journal of Political Economy, 91}(3), 401--419. \url{https://doi.org/10.1086/261155}
+\item Glocker, C., \& Towbin, P. (2012). Reserve requirements for price and financial stability: When are they effective? \textit{International Journal of Central Banking, 8}(1), 65--113.
+\item Ize, A., \& Levy Yeyati, E. (2005). \textit{Financial de-dollarization: Is it for real?} (IMF Working Paper N.\textsuperscript{o}~05/187). International Monetary Fund.
+\item Jeanne, O., \& Rancière, R. (2011). The optimal level of international reserves for emerging market countries: A new formula and some applications. \textit{The Economic Journal, 121}(555), 905--930. \url{https://doi.org/10.1111/j.1468-0297.2011.02435.x}
+\item Montoro, C., \& Moreno, R. (2011). The use of reserve requirements as a policy instrument in Latin America. \textit{BIS Quarterly Review}, marzo, 53--65.
+\item Ortiz, M. (2026). \textit{Building the buffer: Reserve requirements and dollar liquidity insurance}. Universidad del Pacífico.
+\item Superintendencia de Banca, Seguros y AFP. (s.\,f.). \textit{Información estadística de banca múltiple} [Base de datos]. \url{https://www.sbs.gob.pe/estadisticas-y-publicaciones/estadisticas-/sistema-financiero}
+\end{refs}
+
+\clearpage
+\begin{center}\textbf{ANEXOS}\end{center}\label{sec:anexos}
+\clearpage
+\singlespacing
+\phantomsection\label{sec:anexo-ia}
+\input{declaracion_ia.tex}
+\clearpage
+\section{Anexo II. Esbozo preliminar de metodología}\label{sec:anexo-met}
+El trabajo es de naturaleza estructural: la hipótesis se evalúa resolviendo y calibrando el modelo del Capítulo~II, no mediante una estimación causal. La estrategia preliminar tiene cuatro pasos. Primero, calibrar los parámetros del modelo a momentos descriptivos por banco y por moneda del panel SBS y de las series del BCRP (dispersión de retiros, tamaño, composición monetaria, corredor de tasas). Segundo, resolver el equilibrio estático como un punto fijo en los buffers voluntarios consistentes con los emparejamientos y la cobertura del fondo. Tercero, ejecutar contrafactuales sobre la capacidad de respaldo por moneda y sobre la heterogeneidad de riesgo y acceso, para trazar la incidencia. Cuarto, contrastar las implicaciones descriptivas del modelo con los hechos estilizados del Anexo~III, sin reclamar identificación causal histórica.
+
+La tabla siguiente muestra que los datos disponibles permiten identificar los objetos del modelo. Las fuentes son públicas, lo que hace viable la ejecución en IE2.
+
+\renewcommand{\arraystretch}{1.25}
+\noindent\begin{tabular}{@{}p{3.7cm}p{3.7cm}p{2.1cm}p{2.5cm}@{}}
+\toprule
+\textbf{Objeto del modelo} & \textbf{Fuente} & \textbf{Frecuencia} & \textbf{Estatus}\\
+\midrule
+Encaje por moneda $\rho^c$ & BCRPData (series de encaje) & Mensual & Observado\\
+Dispersión de retiros $a_k$ & SBS (depósitos por banco) & Mensual & Observado\\
+Composición monetaria $w_k$ & SBS (depósitos por moneda) & Mensual & Observado\\
+Corredor de tasas $i^c_R,i^c_W$ & BCRPData & Mensual & Observado\\
+Acceso interbancario $\lambda_k$ & --- & --- & Supuesto (grilla)\\
+Respaldo $R_D$, movilización & Operaciones del BCRP & Mensual & Condicional\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\noindent El detalle del algoritmo de solución y su implementación se desarrollará en IE2; las condiciones analíticas que lo sustentan se enuncian en el Anexo~IV.
+
+\clearpage
+\section{Anexo III. Hechos estilizados}\label{sec:anexo-hechos}
+Este anexo documenta los cuatro hechos descriptivos que motivan el estudio. Todos provienen de fuentes públicas ---series del BCRP (BCRPData) y estados financieros por banco de la SBS--- y se reportan como asociaciones, sin pretensión causal. El orden va de lo agregado a lo transversal: primero la diferenciación del encaje entre monedas, que motiva el eje monetario; luego los tres márgenes de heterogeneidad bancaria, que motivan el eje distributivo.
+
+\noindent\textbf{1. Diferenciación del encaje por moneda.} Las series de encaje del BCRP muestran una brecha persistente entre moneda nacional (MN, soles) y extranjera (ME). En julio de 2026, el encaje exigible medio sobre las obligaciones sujetas a encaje fue de 5.56\,\% en MN y 35.37\,\% en ME; el encaje efectivo fue de 5.63\,\% y 35.71\,\%, respectivamente. La proximidad entre exigible y efectivo es compatible con un requerimiento vinculante, pero no identifica el costo marginal de la liquidez para cada banco. Las series corresponden a los códigos PN07683NM y PN07684NM (exigible y efectivo en MN) y PN07691NM y PN07692NM (exigible y efectivo en ME), de enero de 2010 a julio de 2026. Son ratios agregados sobre el total de obligaciones sujetas a encaje, no tasas marginales legales.
+
+\noindent\textbf{2. Tamaño y riesgo de fondeo.} En el panel de veinte eras bancarias de la SBS (julio de 2013 a julio de 2026), el tamaño ---media del logaritmo de activos--- y la volatilidad del crecimiento de los depósitos se asocian negativamente, con una correlación de Pearson de $-0.468$. El signo se mantiene al usar la volatilidad residual, que descuenta efectos de era y de mes. En esta muestra, los bancos más pequeños presentan una mayor volatilidad del crecimiento de sus depósitos, pero una relación de tamaño y riesgo no implica que toda clase pequeña sea más riesgosa ni que su utilización neta del seguro sea mayor una vez ajustados los buffers voluntarios.
+
+\noindent\textbf{3. Autoseguro y liquidez contable.} En la misma muestra, la volatilidad residual del crecimiento de los depósitos se asocia positivamente con la liquidez contable ---disponible sobre activos---, con una correlación de 0.508. El patrón es consistente con un mayor autoseguro por parte de los bancos más expuestos, aunque la liquidez contable no equivale al buffer voluntario del modelo: incluye partidas que no necesariamente están disponibles para atender un retiro.
+
+\noindent\textbf{4. Composición monetaria entre bancos.} La participación de los depósitos en ME sobre el total difiere marcadamente entre bancos (Figura A1): desde cerca de 1\,\% en la banca de consumo hasta más de 85\,\% en la banca corporativa de matriz extranjera. Estas medias se calculan sobre ventanas de actividad distintas por banco, por lo que no constituyen un corte transversal contemporáneo ni prueban persistencia individual; además, los saldos en ME expresados en soles incorporan valoración cambiaria. La dispersión motiva tratar la composición monetaria como fija por clase en el marco, como una aproximación de primer orden, no como un objeto de equilibrio.
+
+\noindent\textbf{Qué no identifican estos hechos.} La evidencia es descriptiva y delimita lo que el marco puede y no puede sostener. La diferenciación del encaje por moneda no prueba que el motivo de seguro explique el nivel observado, pues el instrumento cumple funciones de crédito y estabilidad ajenas al modelo. Los saldos interbancarios no revelan la intensidad de acceso al mercado de cada clase. Las operaciones de liquidez del BCRP no identifican la capacidad de respaldo contingente ni la fracción del fondo efectivamente movilizable. Y las asociaciones de tamaño, riesgo y liquidez no fijan, por sí solas, la utilización neta del seguro, que depende de la respuesta conjunta de carteras, acceso y cobertura. Estas limitaciones definen las decisiones que la metodología de IE2 deberá resolver, documentadas en el Anexo~IV.
+
+\vspace{0.4cm}
+\noindent\textbf{Tabla 2. Evidencia seleccionada}\label{tab:evidencia}
+\vspace{0.15cm}
+
+\renewcommand{\arraystretch}{1.3}
+\noindent\begin{tabular}{@{}p{2.3cm}p{3.7cm}p{2.9cm}p{3.9cm}@{}}
+\toprule
+\textbf{Hecho} & \textbf{Evidencia} & \textbf{Periodo / muestra} & \textbf{Objeto y limitación}\\
+\midrule
+Diferenciación monetaria & Encaje exigible 5.56\,\% (MN) y 35.37\,\% (ME) en jul.~2026 & Ene.~2010--jul.~2026; agregado BCRP & Motiva el eje monetario; el ratio sobre TOSE no identifica el seguro ni el encaje marginal\\
+Tamaño y riesgo & Correlación $-0.468$ entre tamaño y volatilidad de depósitos & Jul.~2013--jul.~2026; 20 eras SBS & Motiva la heterogeneidad; asociación, no efecto causal del tamaño\\
+Autoseguro y liquidez & Correlación 0.508 entre volatilidad residual y disponible/activos & Jul.~2013--jul.~2026; 20 eras SBS & Consistente con autoseguro; la liquidez contable no equivale al buffer del modelo\\
+Composición monetaria & Medias de depósitos ME/total dispares entre bancos & Ventanas por banco dentro del panel & Motiva la composición fija; no prueba persistencia ni exogeneidad\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5cm}
+\begin{center}\IfFileExists{figA1.pdf}{\includegraphics[width=0.9\linewidth]{figA1.pdf}}{\fbox{\parbox[c][4cm][c]{0.85\linewidth}{\centering\itshape Figura A1 — subir \texttt{figA1.pdf} a Overleaf}}}\end{center}
+\figcap{\textbf{Figura A1. Dolarización de depósitos por banco y era.}\label{fig:auno} Fuente: SBS, julio de 2013 a julio de 2026 según la ventana disponible de cada banco. Media de la participación de depósitos en ME sobre el total, por era bancaria. Evidencia descriptiva; ventanas desiguales y con valoración cambiaria; no prueba persistencia individual.}
+
+\clearpage
+\section{Anexo IV. Condiciones analíticas y decisiones abiertas}\label{sec:anexo-cond}
+\noindent\textbf{Condiciones analíticas preliminares (por demostrar).}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+\item Existencia del bloque de carteras: con cruce único de la condición marginal del buffer y valor marginal acotado por el costo de oportunidad, el mapa de mejores respuestas admitiría un punto fijo.
+\item Respaldo suficiente: si el respaldo por unidad de depósito iguala o supera el mayor déficit posible sin reservas en el peor estado, el fondo no se agotaría para ningún encaje y el motivo de seguro en esa moneda sería nulo.
+\item Techo del seguro: existiría un nivel de encaje por encima del cual ninguna clase tiene déficit en ningún estado, de modo que el encaje dejaría de asegurar; su valor no dependería de la fracción movilizable ni del respaldo.
+\item Lectura inversa no única: dado un recargo de mercado, el encaje que iguala la prima al valor de la cobertura no tendría solución única.
+\end{itemize}
+
+\noindent\textbf{Decisiones abiertas (para discusión con el asesor).}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+\item Especificación contractual que permita medir transferencias netas entre clases (principal, remuneración y pérdidas).
+\item Calibración del respaldo en dólares $R_D$ y de la fracción movilizable del fondo.
+\item Tratamiento del término de evento: especificación principal por frecuencia y evento como robustez.
+\item Factibilidad de una extensión de dos períodos que evalúe si la incidencia cambia cuando el aporte y el uso del seguro ocurren en momentos distintos, dejando el horizonte dinámico completo como agenda.
+\end{itemize}
+
+\end{document}
+
+
