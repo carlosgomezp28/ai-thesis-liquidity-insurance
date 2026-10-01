@@ -1,0 +1,227 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx,amsmath,amssymb}
+\usepackage[margin=25mm]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\inh}{\textbf{Inherited (joint IE1 model).}}
+\newcommand{\newa}{\textbf{New (individual-project closure).}}
+\newcommand{\der}{\textbf{Derived.}}
+\title{Voluntary Liquidity Buffers and Public Dollar Backing\\\large Technical baseline for AI \& Economic Modeling}
+\author{Carlos G\'omez Puic\'an\\Universidad del Pac\'ifico}
+\date{October 2026}
+\begin{document}
+\maketitle
+\textbf{Attribution and scope.} The environment in \texttt{source/PT\_final\_v3.tex} is joint prior work by Carlos G\'omez Puic\'an and Fabi\'an M\'endez Su\'arez for Investigaci\'on Econ\'omica I, supervised by Marco Ortiz. Fabi\'an has authorized Carlos to use and further develop that model. The optimization closure and derivations below are new work for Carlos's individual project in AI \& Economic Modeling. The sole baseline source is that final IE1 file; its literature references are not used to supply missing primitives here. This note does not establish general-equilibrium comparative statics or net subsidies.
+
+\section{Inherited environment and notation}
+\inh{} There is one period with stages, two bank classes $k\in\{L,S\}$ with masses $\mu_k$, and currencies $c\in\{s,u\}$ (soles and dollars). The classes represent large/lower-risk and small/more-volatile banks; this interpretation alone imposes no universal buffer ranking. Deposits, currency shares, and total equity satisfy
+\begin{equation}
+ d_k^u=w_kd_k,\qquad d_k^s=(1-w_k)d_k,\qquad
+ E_k=\varepsilon d_k,\qquad \sum_c E_k^c=E_k.
+\end{equation}
+The currency-specific balance sheet and reserve decomposition are
+\begin{equation}\label{eq:balance}
+ b_k^c+d_k^cm_k^c=d_k^c+E_k^c,\qquad
+ m_k^c=\rho^c+u_k^c,\qquad u_k^c\geq0.
+\end{equation}
+After portfolio choice, the signed liquidity flow is
+\begin{equation}
+ \omega_k^c=\beta_kA^c+e_k^c,\qquad e_k^c\sim U[-a_k^c,a_k^c].
+\end{equation}
+Soles have $A^s=0$. Dollars have $A^u=-\eta$ with probability $p$ and $A^u=0$ with probability $1-p$. Negative flows worsen liquidity; positive flows improve it.
+
+\der{} Let $\chi=0$ under non-utilizable reserves (NU), and $\chi=1$ under utilizable reserves (U). The two inherited liquidity equations become
+\begin{equation}\label{eq:position}
+ x_k^c=u_k^c+\chi\rho^c,\qquad
+ s_k^c=d_k^c(\omega_k^c+x_k^c).
+\end{equation}
+In NU, only voluntary liquidity absorbs the bank's shock; required reserves back a collective corpus. In U, all reserves absorb its shock, and required principal is not counted again in that corpus.
+
+\inh{} Conditional deficits, surpluses, and deficit probabilities are
+\begin{align}
+ S_k^{c-}(u,A)&=\E_e[(-s_k^c)^+\mid A^c=A],&
+ S_k^{c+}(u,A)&=\E_e[(s_k^c)^+\mid A^c=A],\\
+ \pi_k^{c-}(u,A)&=\Pr(s_k^c<0\mid A^c=A),& (y)^+&=\max\{y,0\}.
+\end{align}
+Explicit $u$ arguments expose choice dependence without changing these inherited definitions. With $\tau_k=1-e^{-\lambda_k}$, admitted interbank supply, demand, and deficit allocation are
+\begin{align}
+ P^c(A)&=\sum_j\mu_j\tau_j S_j^{c+}(u_j^c,A),&
+ Q^c(A)&=\sum_j\mu_j\tau_j S_j^{c-}(u_j^c,A),\\
+ \Psi_k^{-,c}(A)&=\tau_k\min\{1,P^c(A)/Q^c(A)\}.
+\end{align}
+The source also specifies $i_{IB}^c=i_R^c+\alpha(i_W^c-i_R^c)$; the new net cost primitives below are not automatically identified with this rate.
+\begin{equation}
+ \Delta^c(A)=\sum_j\mu_j[1-\Psi_j^{-,c}(A)]S_j^{c-}(u_j^c,A).
+\end{equation}
+The soles window is elastic. Dollar capacity and proportional coverage are
+\begin{equation}\label{eq:fund}
+ F^u=(1-\chi)\nu_F^u\rho^uD^u+R_D,\qquad
+ D^u=\sum_j\mu_jd_j^u,\qquad
+ \phi(A)=\min\{1,F^u/\Delta^u(A)\}.
+\end{equation}
+Here $\nu_F^u\in[0,1]$ and $R_D\geq0$. Write $\varphi^u=\phi$ and $\varphi^s=1$ to express the full-coverage interpretation of the soles benchmark. Expected dollar coverage per representative bank is
+\begin{equation}
+ C_k^u=\E_A[\phi(A)(1-\Psi_k^{-,u}(A))S_k^{u-}(u_k^u,A)].
+\end{equation}
+The ratio $C_k^u/d_k^u$ measures utilization, not a net transfer.
+
+\section{Explicit new assumptions}
+\newa{} The following close the individual problem; they are not attributed to IE1.
+\begin{enumerate}[leftmargin=*,itemsep=3pt]
+\item Each class contains atomistic banks. A bank chooses $u_k^c$ before observing shocks and takes state-contingent $P^c,Q^c,\Delta^c,\Psi_k^{-,c},\varphi^c$ as given during a unilateral deviation. Class-wide changes may affect these quantities.
+\item Deposits, currency shares, currency-specific equity, reserve policy, and shock parameters are fixed. No additional cross-currency portfolio constraint is imposed. Each active currency problem is solved in its own units.
+\item Credit is nonnegative. Active portfolios have $d_k^c>0$, finite inputs, and $\bar u_k^c:=1+E_k^c/d_k^c-\rho^c\geq0$. Thus the feasible set is $[0,\bar u_k^c]$. Zero-deposit portfolios are excluded from this normalized problem.
+\item Conditional on each aggregate state, $e_k^c$ is uniform on $[-a_k^c,a_k^c]$, with $a_k^c>0$. This makes the conditional distribution explicit. Conditional aggregation and contact independence sufficient to implement the inherited allocation rule are maintained.
+\item The bank minimizes expected private cost. Its net opportunity cost per unit of voluntary liquidity is a constant $\kappa_k^c>0$. Nonnegative, finite $q_I^c,q_F^c,\ell^c$ are net private costs per unit of interbank-funded, publicly funded, and uncovered deficit. They do not depend on the bank's buffer or $R_D$ in the comparative static. Costs are linear in deficit quantities and allocation fractions apply proportionally to those quantities.
+\item Surplus-lending income is zero ($v_I=0$). No lender-side payoff or matching equation is introduced.
+\item Set $\Psi_k^{-,c}=0$ when $Q^c=0$, and $\varphi^u=1$ when $\Delta^u=0$. The associated funded deficit quantities are zero, so these conventions do not create payments.
+\end{enumerate}
+
+\section{Bank problem and marginal condition}
+\newa{} The private cost per unit of pre-interbank deficit is
+\begin{equation}\label{eq:h}
+ h_k^c(A)=\Psi_k^{-,c}(A)q_I^c+
+ [1-\Psi_k^{-,c}(A)]\{\varphi^c(A)q_F^c+[1-\varphi^c(A)]\ell^c\}.
+\end{equation}
+\der{} Let $L_k^c(u,A)=S_k^{c-}(u,A)/d_k^c$.
+\newa{} The selected private objective is
+\begin{equation}\label{eq:problem}
+ \min_{0\leq u_k^c\leq\bar u_k^c}
+ V_k^c(u_k^c)=\kappa_k^cu_k^c+
+ \E_{A^c}[h_k^c(A^c)L_k^c(u_k^c,A^c)].
+\end{equation}
+Multiplication by fixed $d_k^c$ yields the equivalent total-cost problem. Credit is determined by \eqref{eq:balance}, not an additional independent choice.
+
+\der{} For $z=\beta_kA+u+\chi\rho^c$ and $a=a_k^c$, conditional uniformity yields
+\begin{equation}\label{eq:uniform}
+ L_k^c(u,A)=\begin{cases}
+ -z,&z\leq-a,\\
+ (a-z)^2/(4a),&-a<z<a,\\
+ 0,&z\geq a,
+ \end{cases}\quad
+ \pi_k^{c-}(u,A)=\begin{cases}
+ 1,&z\leq-a,\\
+ (a-z)/(2a),&-a<z<a,\\
+ 0,&z\geq a.
+ \end{cases}
+\end{equation}
+In the interior-support region, integrate explicitly:
+\begin{equation}
+ L_k^c(u,A)=\frac1{2a}\int_{-a}^{-z}(-z-e)\,de
+ =\frac{(a-z)^2}{4a}.
+\end{equation}
+For the general derivative, $\partial z/\partial u=1$ and, away from its threshold,
+\begin{equation}
+ \frac{\partial(-z-e)^+}{\partial u}=-\ind_{\{z+e<0\}}.
+\end{equation}
+The conditional shock has no threshold atom and this derivative is bounded by one. Dominated differentiation therefore implies
+\begin{equation}\label{eq:derivative}
+ \frac{\partial L_k^c(u,A)}{\partial u}
+ =-\E_e[\ind_{\{z+e<0\}}\mid A]=-\pi_k^{c-}(u,A).
+\end{equation}
+The first derivative remains valid at uniform support endpoints, where the pieces join continuously.
+
+Because a bank holds $h_k^c(A)$ fixed during its choice,
+\begin{equation}
+ (V_k^c)'(u)=\kappa_k^c-\E_{A^c}[h_k^c(A^c)\pi_k^{c-}(u,A^c)].
+\end{equation}
+An interior optimum satisfies
+\begin{equation}\label{eq:foc}
+ \boxed{\kappa_k^c=\E_{A^c}[h_k^c(A^c)\pi_k^{c-}(u_k^{c,*},A^c)].}
+\end{equation}
+For dollars the expectation weights $A=0$ by $1-p$ and $A=-\eta$ by $p$. The buffer's certain opportunity cost equals its expected avoided deficit cost; no surplus-income term enters.
+
+\section{Existence, interiority, and uniqueness}
+\der{} Continuity of the positive-part expectation on the nonempty compact feasible interval, with finite inputs, gives existence. Nonnegative deficit costs imply convexity of $V$ (equivalently, concavity of $-V$). Define
+\begin{equation}
+ M_k^c(u)=\E_A[h_k^c(A)\pi_k^{c-}(u,A)].
+\end{equation}
+It is continuous and nonincreasing. Sufficient conditions to exclude both boundaries are
+\begin{equation}\label{eq:interior}
+ \bar u_k^c>0,\qquad M_k^c(0)>\kappa_k^c>M_k^c(\bar u_k^c).
+\end{equation}
+A unique crossing of $M=\kappa$ ensures uniqueness. Strict convexity is a stronger sufficient condition: for every feasible $u_1<u_2$, require $M(u_1)>M(u_2)$. Positive weighted density throughout the interior except at support endpoints is one convenient sufficient condition. Separated state supports can create flat intervals, so uniformity alone does not ensure uniqueness.
+
+Away from support endpoints,
+\begin{equation}\label{eq:curvature}
+ (V_k^c)''(u)=\E_A[h_k^c(A)f_k^c(-\beta_kA-u-\chi\rho^c\mid A)]\geq0.
+\end{equation}
+At a regular interior optimum define
+\begin{equation}\label{eq:D}
+ \mathcal D_k^c:=\sum_{A\in\mathcal A^c}\Pr(A^c=A)
+ \frac{h_k^c(A)}{2a_k^c}
+ \ind_{\{|\beta_kA+u_k^{c,*}+\chi\rho^c|<a_k^c\}}>0.
+\end{equation}
+Away from support boundaries this gives a locally strict crossing; with global convexity it excludes other optima. If $M(0)\leq\kappa$, zero is optimal; if $M(\bar u)\geq\kappa$, the upper bound is optimal. Equality can admit multiple optima. None of these statements proves aggregate equilibrium existence or uniqueness.
+
+\section{Conditional dollar-backing comparative static}
+\newa{} For this comparative static, hold aggregate dollar supply, demand, and residual deficits fixed across values of $R_D$. Thus $\Psi_k^{-,u}(A)$ is fixed as well. Also hold deposits, policy, shocks, feasible bounds, and private cost coefficients fixed. Individual atomistic behavior alone does not justify holding these aggregates fixed across equilibria.
+
+\der{} Rewrite \eqref{eq:h} as
+\begin{equation}
+ h_k^u(A)=\Psi_k^{-,u}(A)q_I^u+
+ [1-\Psi_k^{-,u}(A)]\{\ell^u-\varphi^u(A)(\ell^u-q_F^u)\}.
+\end{equation}
+For $0<F^u<\Delta^u(A)$,
+\begin{equation}
+ \varphi^u_{R_D}(A)=\frac1{\Delta^u(A)},\qquad
+ (h_k^u)_{R_D}(A)=-[1-\Psi_k^{-,u}(A)](\ell^u-q_F^u)\varphi^u_{R_D}(A).
+\end{equation}
+If $F^u>\Delta^u(A)$, the coverage derivative is zero. At equality there is a kink; at $R_D=0$ or $F^u=0$ use a right derivative where appropriate.
+
+Differentiate \eqref{eq:foc} along the conditional best response:
+\begin{align}
+ 0&=\E_A[(h_k^u)_{R_D}(A)\pi_k^{u-}(u_k^{u,*},A)]
+ +\E_A[h_k^u(A)\pi_{k,u}^{u-}(u_k^{u,*},A)]\frac{du_k^{u,*}}{dR_D},\\
+ \E_A[h_k^u(A)\pi_{k,u}^{u-}(u_k^{u,*},A)]&=-\mathcal D_k^u.
+\end{align}
+Therefore
+\begin{equation}\label{eq:RD}
+ \boxed{\frac{du_k^{u,*}}{dR_D}
+ =-\frac{(\ell^u-q_F^u)
+ \E_A[\pi_k^{u-}(u_k^{u,*},A)(1-\Psi_k^{-,u}(A))\varphi^u_{R_D}(A)]}
+ {\mathcal D_k^u}.}
+\end{equation}
+Away from kinks, the numerator expectation is
+\begin{equation}
+ \sum_{A\in\{0,-\eta\}}\Pr(A^u=A)\,
+ \pi_k^{u-}(u_k^{u,*},A)[1-\Psi_k^{-,u}(A)]
+ \frac{\ind_{\{F^u<\Delta^u(A)\}}}{\Delta^u(A)},
+\end{equation}
+with zero contribution when $\Delta^u(A)=0$.
+
+\textbf{Strict sign conditions.} For an ordinary two-sided derivative, require an interior optimum, $\mathcal D_k^u>0$, no positive-probability support or coverage kink, $\ell^u>q_F^u$, and at least one state with positive probability satisfying
+\begin{equation}
+ \pi_k^{u-}(u_k^{u,*},A)>0,\quad
+ \Psi_k^{-,u}(A)<1,\quad 0<F^u<\Delta^u(A).
+\end{equation}
+Then $du_k^{u,*}/dR_D<0$. The state giving strict numerator positivity need not provide positive curvature. If all relevant states are fully covered, the derivative is zero. If $\ell^u=q_F^u$, public coverage does not change this private marginal cost. At a buffer boundary the smooth formula does not apply.
+
+\textbf{Equilibrium limitation.} If all banks adjust, both interbank allocation and residual demand can change. In a rationed state,
+\begin{equation}
+ \frac{d\varphi^u(A)}{dR_D}=\frac1{\Delta^u(A)}
+ -\frac{F^u}{[\Delta^u(A)]^2}\frac{d\Delta^u(A)}{dR_D}.
+\end{equation}
+Those feedbacks are not controlled by \eqref{eq:RD}; its sign is a conditional individual best-response result.
+
+\section{U versus NU and accounting checks}
+\der{} In U, $x=u+\rho$ and $F^u=R_D$; in NU, $x=u$ and $F^u=\nu_F^u\rho^uD^u+R_D$. Both regimes have the same feasible upper bound and $F^u_{R_D}=1$. The FOC and conditional sign logic have the same form, but deficit probabilities and rationing differ. There is no unconditional ranking of buffers across regimes.
+
+\textbf{No duplicate reserve cost.} $\kappa_k^c$ is already the net marginal opportunity cost of voluntary liquidity; do not add a second credit--reserve spread. Required reserve holding costs that depend only on fixed $\rho^c$ are constant in this choice problem and are omitted, not assumed nonexistent. In U, reserve principal is usable by the bank and excluded from the fund; in NU it enters the fund and not own-bank liquidity.
+
+\textbf{No duplicate liquidity cost.} The mutually exclusive deficit fractions sum to one:
+\begin{equation}
+ \Psi+(1-\Psi)\varphi+(1-\Psi)(1-\varphi)=1.
+\end{equation}
+Charge $q_I$ only to interbank-funded deficits, $q_F$ only to public funding, and $\ell$ only to uncovered deficits. Net borrowing charges must not repeat the ex ante opportunity cost or treat repayable principal as a loss. Do not add interbank interest separately if it is already inside $q_I$, or subtract coverage as an additional transfer benefit. The baseline sets surplus-lending income to zero.
+
+\textbf{Remaining work.} Specify/calibrate the reduced-form private costs; solve the aggregate buffer fixed point; study feedbacks and coverage utilization; and complete ownership, repayment, remuneration, and loss accounting before measuring net transfers. No general claim is made that smaller or more volatile banks hold larger buffers.
+
+\textbf{Verification.} \texttt{model/verify\_foc.py} checks the interior uniform integral, the derivative identity, convexity algebra, and the conditional backing sign with SymPy. It complements, and does not replace, the analytical arguments here.
+\end{document}

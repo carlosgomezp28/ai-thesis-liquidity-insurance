@@ -1,0 +1,331 @@
+\documentclass[aspectratio=169,17pt]{beamer}
+% Compile twice with pdflatex. Notes are hidden in the audience PDF.
+% Presenter pacing (minutes): .75+1.5+2+2.25+1.75+3+3+2.75+1.75+1.25 = 20.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb}
+\geometry{paperwidth=320mm,paperheight=180mm}
+\definecolor{navy}{RGB}{28,53,76}
+\definecolor{teal}{RGB}{20,112,113}
+\definecolor{ochre}{RGB}{158,98,30}
+\definecolor{muted}{RGB}{91,103,112}
+\definecolor{light}{RGB}{225,232,236}
+\setbeamercolor{normal text}{fg=navy,bg=white}
+\setbeamercolor{structure}{fg=teal}
+\setbeamercolor{frametitle}{fg=navy,bg=white}
+\setbeamercolor{footline}{fg=muted,bg=white}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{teal}\raisebox{.2ex}{\scriptsize$\bullet$}}
+\setbeamertemplate{itemize subitem}{\color{teal}$\circ$}
+\setbeamersize{text margin left=18mm,text margin right=18mm}
+\setbeamerfont{normal text}{size=\fontsize{22}{28}}
+\setbeamerfont{frametitle}{size=\fontsize{35}{41},series=\bfseries}
+\setbeamerfont{itemize/enumerate body}{size=\fontsize{22}{29}}
+\setbeamerfont{itemize/enumerate subbody}{size=\fontsize{20}{26}}
+\setbeamerfont{footline}{size=\fontsize{16}{20}}
+\setbeamertemplate{frametitle}{\vspace{7mm}\insertframetitle\par\vspace{2mm}}
+\newcommand{\framescope}{Joint IE1 environment / individual extension}
+\newcommand{\scope}[1]{\gdef\framescope{#1}}
+\setbeamertemplate{footline}{%
+ \hspace{18mm}\begin{minipage}{284mm}
+ \color{light}\rule{\linewidth}{.6pt}\par\vspace{2mm}
+ \color{muted}\usebeamerfont{footline}\framescope\hfill
+ \insertframenumber\,/\,\inserttotalframenumber
+ \end{minipage}\vspace{5mm}}
+\setbeameroption{hide notes}
+\AtBeginDocument{\fontsize{22}{28}\selectfont
+\setlength{\abovedisplayskip}{8pt}\setlength{\belowdisplayskip}{8pt}
+\setlength{\abovedisplayshortskip}{5pt}\setlength{\belowdisplayshortskip}{5pt}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\smallcopy}{\fontsize{18}{23}\selectfont}
+\newcommand{\midcopy}{\fontsize{20}{26}\selectfont}
+\newcommand{\labeltext}[1]{{\color{teal}\bfseries #1}}
+\newcommand{\bigequation}{\fontsize{32}{39}\selectfont}
+\newcommand{\listspace}{\setlength{\itemsep}{13pt}}
+\title{Voluntary Liquidity Buffers and Public Dollar Backing}
+\author{Carlos G\'omez Puic\'an}
+\institute{Universidad del Pac\'ifico}
+\date{October 2026}
+\begin{document}
+
+% 1: title (0:45)
+\scope{Joint IE1 baseline / Carlos's individual optimization extension}
+\begin{frame}[plain]
+\vspace{7mm}
+{\fontsize{20}{26}\selectfont\color{teal}UNIVERSIDAD DEL PAC\'IFICO}
+\vspace{11mm}
+
+{\fontsize{50}{56}\selectfont\bfseries
+ Voluntary Liquidity Buffers\\and Public Dollar Backing\par}
+\vspace{9mm}
+{\fontsize{28}{35}\selectfont Carlos G\'omez Puic\'an\par}
+\vspace{2mm}
+{\fontsize{22}{28}\selectfont AI \& Economic Modeling\par}
+\vspace{12mm}
+{\smallcopy\color{muted}
+Joint IE1 baseline with Fabi\'an M\'endez Su\'arez; supervised by Marco Ortiz.\par
+Optimization closure and new derivations: Carlos's individual project.\par}
+\note{Timing: 0:45. Introduce the project as an extension of joint prior work, rather than a new model created entirely for this course. The baseline research proposal was jointly developed with Fabi\'an M\'endez Su\'arez for Investigaci\'on Econ\'omica I, supervised by Marco Ortiz. Fabi\'an authorized Carlos to use and further develop it. The individual contribution is the private optimization closure that determines voluntary liquidity and the conditional comparative static developed from that closure. Emphasize that today's presentation is about a topic and a validated modeling path. It does not report calibration results or an equilibrium theorem. The question will be introduced economically before the audience sees the objective and first-order condition.
+
+[Sources] Joint baseline: source/PT\_final\_v3.tex, Chapter II. Individual closure: model/model\_notes.tex. Authorship authorization: project instructions.}
+\end{frame}
+
+% 2: question (1:30)
+\scope{Research question: joint IE1 motivation / individual focus}
+\begin{frame}{Does public backing change self-insurance?}
+\relax
+{\fontsize{30}{39}\selectfont
+How does public dollar-liquidity backing affect a bank's voluntary liquidity buffer, conditional on interbank conditions?\par}
+\vspace{10mm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\labeltext{Broader joint IE1 question}\par\vspace{3mm}
+Who contributes to and uses liquidity coverage when banks differ in risk and access?
+\end{column}
+\begin{column}{.47\textwidth}
+\labeltext{Individual project's first step}\par\vspace{3mm}
+Determine the bank's self-insurance choice before studying aggregate feedbacks.
+\end{column}
+\end{columns}
+\note{Timing: 1:30. Start with the decision the bank faces: how much liquidity should it keep before knowing whether it will need funds? The broader joint IE1 question concerns incidence when a reserve requirement is uniform within each currency but banks have different funding risk and access to interbank liquidity. That question cannot be answered just by comparing shocks, because banks can respond by holding different voluntary buffers. The individual extension first makes that response explicit. Explain that public dollar backing means the capacity available to cover needs that remain after private interbank allocation. The conditional qualifier is essential: for the first proposition, interbank supply, demand, and residual aggregate deficits are held fixed across backing scenarios. This isolates a bank's best-response channel. It deliberately leaves the system's adjustment for the final project. Do not interpret coverage received as a subsidy or net transfer; repayment, ownership of required reserves, and loss allocation are not yet fully specified.
+
+[Sources] source/PT\_final\_v3.tex, introduction and Chapter II; model/model\_notes.tex, conditional comparative static and accounting scope.}
+\end{frame}
+
+% 3: environment (2:00)
+\scope{Inherited: joint IE1 economic environment}
+\begin{frame}{Banks differ in exposure and market access}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\labeltext{Banks and currencies}\par\vspace{4mm}
+\begin{itemize}\listspace
+\item Two bank types: $L$ and $S$
+\item Two currencies: soles and dollars
+\item Different liquidity-shock exposure
+\item Different interbank access
+\end{itemize}
+\end{column}
+\begin{column}{.47\textwidth}
+\labeltext{Liquidity held before the shock}\par\vspace{5mm}
+{\fontsize{32}{39}\selectfont $\rho$}\quad Required reserves\par\vspace{8mm}
+{\fontsize{32}{39}\selectfont $u$}\quad Voluntary buffer\par\vspace{8mm}
+Deposits, currency shares, and equity are fixed in the extension.
+\end{column}
+\end{columns}
+\vspace{9mm}
+{\midcopy\color{muted}Dollars face normal and sudden-stop aggregate states; soles have no aggregate shock in this baseline.}
+\note{Timing: 2:00. Introduce only the notation the audience will need immediately. L and S represent the two bank classes in the joint proposal, interpreted as large/lower-risk and small/more-volatile types. That interpretation does not establish a ranking of their optimal buffers. The model also allows heterogeneous aggregate-shock exposures and interbank contact probabilities. Each bank has a fixed currency composition, and the individual closure fixes the equity assigned to each currency portfolio. The balance sheet divides available funds between credit and reserves. Reserves consist of mandatory rho and voluntary u. Increasing u leaves less available for credit; this is the origin of the opportunity-cost primitive introduced later. The inherited signed liquidity flow is omega = beta A + e. Idiosyncratic shocks are uniform conditional on the aggregate state in the approved closure. Soles have A=0, while dollars face A=0 or a negative sudden-stop state. A negative flow worsens liquidity and a positive flow improves it. Keep the full distribution and balance-sheet algebra in the technical note; they are not needed to understand the mechanism yet. State that banks choose before observing the shocks.
+
+[Sources] source/PT\_final\_v3.tex, environment and liquidity shock; model/model\_notes.tex, fixed inputs and conditional shock distribution.}
+\end{frame}
+
+% 4: architecture (2:15)
+\scope{Inherited: liquidity accounting, interbank allocation, public coverage}
+\begin{frame}{Liquidity protection has three layers}
+\relax
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.47\textwidth}
+\centering
+{\fontsize{23}{28}\selectfont
+\begin{tabular}{c}
+\color{teal}\bfseries Voluntary buffer\\[-1pt]
+$\downarrow$\\[-1pt]
+Liquidity shock\\[-1pt]
+$\downarrow$\\[-1pt]
+\bfseries Interbank market\\[-1pt]
+$\downarrow$\\[-1pt]
+\bfseries Public backing\\[-1pt]
+$\downarrow$\\[-1pt]
+\color{ochre}Uncovered deficit
+\end{tabular}}
+\end{column}
+\begin{column}{.47\textwidth}
+\labeltext{Own self-insurance}\par\vspace{3mm}
+Liquidity held before the shock\par\vspace{12mm}
+\labeltext{External liquidity insurance}\par\vspace{3mm}
+Interbank funding, then public coverage\par\vspace{10mm}
+{\midcopy\color{ochre}Any remaining deficit carries a private loss.}
+\end{column}
+\end{columns}
+\note{Timing: 2:15. Walk down the diagram slowly. The voluntary buffer is chosen before uncertainty is realized. A negative liquidity shock may exhaust usable own funds and create a deficit. The interbank market then redistributes available liquidity, but contact and aggregate supply constraints prevent complete coverage in every state. Public backing covers some of the residual need. Any deficit remaining after that layer carries the uncovered-deficit loss in the new private objective. Explain that the diagram describes the sequence of protection, not five independent sources of cost. If own liquidity eliminates the initial deficit, that bank does not need the subsequent funding layers. If interbank funding covers a unit, it does not also receive a public or uncovered-loss charge. Distinguish self-insurance from external insurance: the bank chooses its own buffer, while the inherited institutions determine how much external liquidity it receives. The U/NU distinction will later specify whether mandatory reserves are usable by the individual bank or support the collective fund. A better public backstop can reduce the private cost of having an initial deficit, but public liquidity need not be free. That last observation motivates the cost closure rather than a blanket assumption that public coverage eliminates every incentive to hold liquidity.
+
+[Sources] source/PT\_final\_v3.tex, liquidity positions, interbank market, fund and backing; model/model\_notes.tex, private deficit costs.}
+\end{frame}
+
+% 5: contribution (1:45)
+\scope{Attribution: inherited joint framework / new individual closure}
+\begin{frame}{The extension makes the buffer a private choice}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\labeltext{Inherited: joint IE1 framework}\par\vspace{5mm}
+\begin{itemize}\listspace
+\item Balance sheets and reserves
+\item Liquidity shocks
+\item Interbank matching
+\item Public coverage
+\end{itemize}
+\end{column}
+\begin{column}{.47\textwidth}
+\labeltext{New: Carlos's individual project}\par\vspace{5mm}
+\begin{itemize}\listspace
+\item Private expected-cost objective
+\item Opportunity cost of $u$
+\item Costs of funded and uncovered deficits
+\item Optimal buffer and conditional result
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{9mm}
+{\midcopy\color{muted}The joint framework specified allocations; it did not yet specify the bank objective determining $u$.}
+\note{Timing: 1:45. Make the authorship boundary explicit. The mechanisms on the left are inherited from the final joint IE1 proposal; no earlier project versions or outside models are being used to reinterpret them. The source already intended buffers to be solved in an equilibrium fixed point, but it did not write the private objective needed to determine a best response. The extension adds that missing objective using the smallest approved private-cost closure. Explain the maintained choices: banks are atomistic, deposits and currency portfolios are fixed, and nonnegative credit bounds the voluntary buffer. Costs are linear and the bank minimizes expected private cost. No surplus-lending income is included. Surplus quantities still affect inherited aggregate interbank supply, but they do not enter the private objective as income. The point is not to claim that such income could never matter; it is to isolate the approved baseline without adding another payoff margin. The optimization closure and the derivatives that follow are Carlos's new individual work. Preserve the joint attribution when discussing the environment and the interbank/public coverage rules.
+
+[Sources] source/PT\_final\_v3.tex, Chapter II and Annex IV; model/model\_notes.tex, explicit new assumptions and bank problem.}
+\end{frame}
+
+% 6: optimization (3:00)
+\scope{New: individual private-cost closure}
+\begin{frame}{Choose liquidity to minimize private cost}
+\relax
+{\fontsize{30}{36}\selectfont
+\[
+\min_{0\leq u_k^c\leq\bar u_k^c}
+\kappa_k^c u_k^c+\E_A[h_k^c(A)L_k^c(u_k^c,A)]
+\]}
+\vspace{-2mm}
+{\midcopy
+$\kappa_k^c$: net opportunity cost\quad
+$L_k^c$: expected deficit per deposit\quad
+$h_k^c$: cost per unit of deficit\par}
+\vspace{5mm}
+\labeltext{For a given bank and currency, deficit costs split into:}\par
+{\fontsize{25}{32}\selectfont
+\[
+h(A)=\underbrace{\Psi q_I}_{\text{interbank-funded}}
++\underbrace{(1-\Psi)\varphi q_F}_{\text{publicly funded}}
++\underbrace{(1-\Psi)(1-\varphi)\ell}_{\text{uncovered}}.
+\]}
+{\smallcopy $\Psi$: interbank fraction\quad $\varphi$: public fraction of the residual deficit.\par}
+\vspace{4mm}
+{\smallcopy\color{muted}
+Atomistic bank; fixed balance-sheet inputs; no surplus income.\par
+Nonnegative credit: $\bar u_k^c=1+E_k^c/d_k^c-\rho^c\geq0$, for $d_k^c>0$.}
+\note{Timing: 3:00. Explain the objective before manipulating it. It is written per unit of deposits, so multiplying the entire expression by the bank's fixed deposits gives the equivalent total-cost problem. The first term is the certain net opportunity cost of setting aside voluntary liquidity before the shock. Kappa already includes the net return sacrificed, so no separate credit-minus-reserve return spread should be added. The second term is the expectation of the state-contingent cost per unit of deficit times the conditional expected deficit. L averages over idiosyncratic shocks within each aggregate state; the outer expectation averages over aggregate states. H is held fixed during an individual deviation because the bank is atomistic. Walk across the three funding categories. Psi is the interbank fraction; among what remains, phi is publicly covered. Each initially deficient unit is charged exactly once: the weights Psi, (1-Psi)phi, and (1-Psi)(1-phi) sum to one. qI and qF are net private funding costs, while ell is the private loss on an uncovered unit. Repayable principal is not itself a net transfer. The rate formula inherited from IE1 is not automatically an identification of these cost primitives. Explain the upper bound using the fixed balance sheet: credit cannot be negative. Required reserve costs constant in rho do not affect this choice FOC. Surplus-lending income remains zero.
+
+[Sources] model/model\_notes.tex, explicit assumptions, optimization problem, and accounting checks; inherited balance sheet: source/PT\_final\_v3.tex.}
+\end{frame}
+
+% 7: FOC (3:00)
+\scope{Derived: individual-buffer first-order condition}
+\begin{frame}{Self-insurance balances cost and avoided deficits}
+\relax
+\labeltext{Extra liquidity reduces deficits when the bank is short.}\par
+\vspace{5mm}
+{\centering\fontsize{36}{43}\selectfont
+$\displaystyle\frac{\partial L(u,A)}{\partial u}=-\pi^-(u,A)$\par}
+\vspace{6mm}
+\labeltext{At an interior optimum:}\par
+\vspace{4mm}
+{\centering\fontsize{42}{51}\selectfont
+$\displaystyle\boxed{\kappa=\E_A[h(A)\pi^-(u^*,A)]}$\par}
+\vspace{6mm}
+{\fontsize{24}{31}\selectfont\centering
+Marginal opportunity cost of self-insurance\\
+$=$ expected marginal deficit cost avoided\par}
+\vspace{5mm}
+{\smallcopy\color{muted}
+$\pi^-$: conditional deficit probability. One bank and currency; continuous shocks.\par}
+\note{Timing: 3:00. Begin with the first equation and pause before reading the FOC. An extra unit of usable liquidity lowers a realized deficit by one if the bank is short, and by zero if it is not. Taking a conditional expectation gives minus the probability of a deficit. With a continuous shock there is no probability mass exactly at the zero-liquidity threshold, so differentiating the expected positive part is legitimate. For intuition only, under the interior uniform-shock region the expected deficit is (a-z) squared divided by 4a, and its derivative is minus (a-z) divided by 2a, which is the deficit probability. The general identity also holds in the certain-deficit and no-deficit regions. Now differentiate the objective: marginal cost is kappa minus the expectation of h times pi. There is no derivative of h in this unilateral bank problem. Setting marginal cost to zero gives the displayed equation. Explain both sides in words and keep that equality as the central message. Public assistance can reduce h but still have a positive qF, so coverage is not equivalent to free funding. State the mathematical qualifications orally: finite costs and the compact feasible set give existence; nonnegative costs give convexity; endpoint marginal-benefit inequalities give interiority; a unique crossing gives uniqueness. Uniform shocks alone do not prove uniqueness, especially if state supports are separated.
+
+[Sources] model/model\_notes.tex, derivative proof, interior FOC, and optimality conditions; model/verify\_foc.py verifies the algebra.}
+\end{frame}
+
+% 8: comparative static (2:45)
+\scope{Derived: CONDITIONAL INDIVIDUAL BEST RESPONSE}
+\begin{frame}{Public backing can reduce self-insurance}
+\relax
+{\midcopy\bfseries Hold aggregate $P$, $Q$, and $\Delta$ fixed across backing scenarios.}\par
+\vspace{6mm}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.32\textwidth}
+{\fontsize{49}{58}\selectfont
+\[
+\frac{d u_k^{u,*}}{dR_D}<0
+\]}
+\vspace{2mm}
+{\midcopy\color{teal}\centering
+More effective public coverage\\reduces the cost of being short.\par}
+\end{column}
+\begin{column}{.64\textwidth}
+{\midcopy
+\begin{itemize}\setlength{\itemsep}{9pt}
+\item Regular interior optimum: positive curvature, away from kinks
+\item Uncovered needs cost more: $\ell^u>q_F^u$
+\item In one positive-probability state:\par
+$\pi_k^{u-}>0$,\quad $\Psi_k^{-,u}<1$,\quad $0<F^u<\Delta^u$
+\item Rationed public coverage responds:\par
+$\partial\varphi^u/\partial R_D=1/\Delta^u>0$
+\end{itemize}}
+\end{column}
+\end{columns}
+\vspace{5mm}
+{\smallcopy\color{muted}
+Also fixed: policy, shocks, costs, deposits, and feasible bounds.\par
+\textbf{Conditional individual best response; no equilibrium sign theorem.}}
+\note{Timing: 2:45. State every condition before treating the sign as a result. The bank must be at a regular interior optimum, with positive curvature and away from the shock-support and public-coverage kinks. Uncovered deficits must be more costly than publicly funded deficits: ell exceeds qF. At least one state with positive probability must give the bank a positive deficit probability, incomplete interbank coverage, and strictly rationed public coverage that improves when RD rises. Hold aggregate admitted supply P, demand Q, and residual deficits Delta fixed across RD scenarios. Also hold all policy, cost, shock, deposit, and feasible-set primitives fixed. Explain the mechanism in three steps: additional backing increases phi in a rationed state; because ell exceeds qF, this lowers the cost h of an initial deficit; the FOC therefore calls for a smaller voluntary buffer. Positive curvature makes the response regular. The exact derivative in the technical note is a negative numerator involving the cost gap, deficit probability, residual interbank fraction, and coverage derivative, divided by positive curvature. If all relevant states are fully covered, the marginal coverage response is zero. If ell equals qF, coverage does not change private cost. At buffer boundaries use boundary analysis. Crucially, atomistic behavior within one equilibrium does not make aggregates fixed across equilibria: when every bank adjusts, P, Q, Delta, and coverage can all change. That system effect remains to be studied.
+
+[Sources] model/model\_notes.tex, conditional dollar-backing comparative static and strict sign conditions; model/verify\_foc.py, sign checks.}
+\end{frame}
+
+% 9: U/NU (1:45)
+\scope{Inherited reserve regimes / derived accounting interpretation}
+\begin{frame}{Required reserves protect banks or the collective}
+\relax
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\labeltext{NU: non-utilizable}\par\vspace{6mm}
+Own usable liquidity\par
+{\fontsize{38}{46}\selectfont\[u\]}
+Required reserves contribute to collective dollar backing.\par\vspace{4mm}
+{\midcopy $F^u=\nu_F^u\rho^uD^u+R_D$}
+\end{column}
+\begin{column}{.47\textwidth}
+\labeltext{U: utilizable}\par\vspace{6mm}
+Own usable liquidity\par
+{\fontsize{38}{46}\selectfont\[u+\rho\]}
+Required reserves do not also enter the collective fund.\par\vspace{4mm}
+{\midcopy $F^u=R_D$}
+\end{column}
+\end{columns}
+\vspace{6mm}
+{\fontsize{25}{32}\selectfont\centering
+Direct individual protection versus collective protection\par}
+\vspace{5mm}
+{\smallcopy\color{muted}\centering
+The same reserve principal is counted once. No unconditional ranking of optimal buffers.\par}
+\note{Timing: 1:45. Explain that the same reserve policy plays different insurance roles in the two inherited regimes. Under NU, the bank cannot use mandatory reserves to absorb its own withdrawal shock; only u is usable. The required dollar reserve corpus contributes, subject to mobilization nu, to collective capacity along with RD. Under U, required reserves are directly usable, so the bank's liquid position includes u plus rho. Those same reserves cannot also be counted as collective principal, leaving public dollar capacity equal to RD in the baseline. Both regimes reduce the maximum feasible voluntary buffer through the balance sheet in exactly the same way, and both have capacity derivative one with respect to RD. The form of the FOC and conditional backing derivative is unchanged, while deficit probabilities and whether coverage is rationed differ. Thus there is no unconditional ranking of optimal buffers between regimes. Describe the distinction as direct individual protection versus collective protection by mandatory reserves; voluntary u remains own self-insurance in both. This also prevents an accounting error: placing mandatory principal in both the bank's usable liquidity and the fund would duplicate protection. No statement about net transfers follows just from the location of that principal.
+
+[Sources] source/PT\_final\_v3.tex, two reserve specifications and fund accounting; model/model\_notes.tex, U versus NU and no-double-counting checks.}
+\end{frame}
+
+% 10: final project (1:15)
+\scope{Next steps: Carlos's individual project building on joint IE1 work}
+\begin{frame}{The final project must close the system response}
+\relax
+\begin{itemize}\setlength{\itemsep}{12pt}
+\item Discipline private cost primitives: $\kappa$, $q_I$, $q_F$, $\ell$
+\item Solve the aggregate buffer fixed point
+\item Let $P$, $Q$, $\Delta$, and coverage respond
+\item Study utilization across bank types and currencies
+\item Discuss net redistribution only with complete contractual accounting
+\end{itemize}
+\vspace{10mm}
+{\fontsize{25}{33}\selectfont\color{teal}
+The conditional self-insurance mechanism is derived under the baseline assumptions.\\
+The system-wide response remains the next modeling task.\par}
+\note{Timing: 1:15. Return to the opening question and separate what is established from what remains. The approved closure makes the voluntary buffer a private choice and identifies a conditional response to stronger dollar backing. The final project must discipline the reduced-form costs rather than simply equating them to observed rates without a cash-flow interpretation. It must solve the aggregate fixed point so that optimal buffers and inherited interbank/public allocations are mutually consistent. Only then can it study whether market and coverage feedbacks preserve the individual sign and how utilization changes across bank classes and currencies. Emphasize that utilization is an allocation measure. Discussion of net redistribution requires ownership of the reserve corpus, repayment terms, remuneration, and who absorbs losses. Conclude with the mechanism rather than promising a general-equilibrium result: better coverage lowers the private cost of being short under the stated conditions, but aggregate effects are still open. Do not infer from small size or high volatility that a bank necessarily holds a larger buffer.
+
+[Sources] model/model\_notes.tex, remaining work and equilibrium limitation; source/PT\_final\_v3.tex, Annexes II and IV.}
+\end{frame}
+\end{document}
